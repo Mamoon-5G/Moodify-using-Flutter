@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup.dart';
-import 'package:MusicPlayer/login/login.dart';
+import 'package:Moodify/login/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -13,6 +13,7 @@ class pwd extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Login',
       home: pwdScreen(),
     );
@@ -26,8 +27,8 @@ class pwdScreen extends StatefulWidget {
 
 class _pwdScreenState extends State<pwdScreen> {
   final _auth = FirebaseAuth.instance;
-  String password;
-  String confirmPassword;
+  late String password;
+  late String confirmPassword;
 
   bool passwordsMatch() {
     return password == confirmPassword;
@@ -35,13 +36,24 @@ class _pwdScreenState extends State<pwdScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF210055),
-      body: Center(
+        body: Container(
+        decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF021D7C), Color(0xFF000000)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    ),
+    ),
+      child: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.7,
-          height: MediaQuery.of(context).size.width * 1.0,
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
-            color: Color(0xFF421d6f),
+            gradient: LinearGradient(
+              colors: [Color(0xFF253D70), Color(0xFF181059)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
@@ -108,7 +120,8 @@ class _pwdScreenState extends State<pwdScreen> {
               ),
               SizedBox(height: 30),
               SizedBox(
-                width: 100,
+                width: 200,
+                height: 45,
                 child: ElevatedButton(
                   onPressed: () async {
                     if (passwordsMatch()) {
@@ -117,8 +130,8 @@ class _pwdScreenState extends State<pwdScreen> {
                       // print(password);
                       try {
                         final newUser = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-                        User user = newUser.user;
-                        user.updateDisplayName(name);
+                        User? user = newUser.user;
+                        user!.updateDisplayName(name);
                         if (newUser != null){
                           Navigator.push(
                             context,
@@ -156,7 +169,7 @@ class _pwdScreenState extends State<pwdScreen> {
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF210055),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -165,6 +178,7 @@ class _pwdScreenState extends State<pwdScreen> {
           ),
         ),
       ),
+    )
     );
   }
 }

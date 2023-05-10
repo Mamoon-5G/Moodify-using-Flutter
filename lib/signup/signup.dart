@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'password.dart';
-String name;
-String email;
+late String name;
+late String email;
 void main() => runApp(SignUp());
 
 class SignUp extends StatelessWidget {
@@ -25,13 +24,24 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF210055),
-      body: Center(
+        body: Container(
+        decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF021D7C), Color(0xFF000000)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    ),
+    ),
+      child: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.7,
-          height: MediaQuery.of(context).size.width * 0.8,
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
-            color: Color(0xFF421d6f),
+            gradient: LinearGradient(
+              colors: [Color(0xFF253D70), Color(0xFF181059)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
@@ -98,7 +108,8 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 30),
               SizedBox(
-                width: 100,
+                width: 200,
+                height: 45,
                 child: ElevatedButton(
                   onPressed: () {
                   // _auth.createUserWithEmailAndPassword(email: email, password: pass)
@@ -113,7 +124,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF210055),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -122,6 +133,7 @@ class _SignupScreenState extends State<SignupScreen> {
           ),
         ),
       ),
+    )
     );
   }
 }

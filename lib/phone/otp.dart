@@ -1,8 +1,6 @@
-import 'package:MusicPlayer/phone/otpsubmit.dart';
+import 'otpsubmit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:MusicPlayer/Home/home.dart';
-import 'package:MusicPlayer/phone/otpsubmit.dart';
 
 void main() => runApp(otpApp());
 
@@ -10,6 +8,7 @@ class otpApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'otp',
       home: otpScreen(),
     );
@@ -31,17 +30,17 @@ class _otpScreenState extends State<otpScreen> {
     try {
       await _auth.verifyPhoneNumber(
         phoneNumber: _phoneController.text,
-        codeSent: (String verificationId, int resendToken) {
+        codeSent: (String? verificationId, int? resendToken) {
           // Save the verification ID so that it can be used in the next screen
           setState(() {
-            _verificationId = verificationId;
+            _verificationId = verificationId!;
             otpSent = true;
           });
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           // Handle auto retrieval timeout
         },
-        timeout: Duration(seconds: 60),
+        timeout: Duration(seconds: 60), verificationCompleted: (PhoneAuthCredential phoneAuthCredential) {  }, verificationFailed: (FirebaseAuthException error) {  },
       );
     } catch (e) {
       print(e.toString());
@@ -51,13 +50,24 @@ class _otpScreenState extends State<otpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF210055),
-      body: Center(
+        body: Container(
+        decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF021D7C), Color(0xFF000000)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    ),
+    ),
+      child: Center(
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.7,
-          height: MediaQuery.of(context).size.width * 1,
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.width * 0.5,
           decoration: BoxDecoration(
-            color: Color(0xFF421d6f),
+            gradient: LinearGradient(
+              colors: [Color(0xFF253D70), Color(0xFF181059)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
@@ -98,6 +108,7 @@ class _otpScreenState extends State<otpScreen> {
               ),
               SizedBox(
                 width: 200,
+                height: 45,
                 child: ElevatedButton(
                   onPressed: () async {
                     _sendOTP();
@@ -112,7 +123,7 @@ class _otpScreenState extends State<otpScreen> {
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFF210055),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                   ),
                 ),
@@ -121,6 +132,7 @@ class _otpScreenState extends State<otpScreen> {
           ),
         ),
       ),
+    )
     );
   }
 }
